@@ -1,32 +1,30 @@
 #  Task 1
+str_1 = 'helloworld'
+a = str_1[0:2]
+b = str_1[8:]
+print(a + b)
 
-name = "Sasha"
-day = " Monday"
-message = f'Good day, {name}!\
-{day} is a perfect day to learn some python.'
-print(message, end='\n\n\n')
+str_2 = 'my'
+print(str_2 * 2)
+
+str_3 = 'x'
+if len(str_3) < 2:
+    print('')
+else:
+    print(str_3)
 
 #  Task 2
-
-first_name = 'Sasha'
-last_name = ' Maksiutynskyi'
-msg_1 = f'{first_name} {last_name} is a coder!'
-msg_2 = first_name + last_name + ' is a coder!'
-print(msg_1, end='\n\n')
-print(msg_2, end='\n\n')
-
+phone_number = "123456789n"
+check_var = phone_number.isdigit()
+if check_var is not True:
+    print('It doesn\'t look like a phone number')
+else:
+    print("It\'s a phone number!")
 
 #  Task 3
-
-a = 5
-b = 2
-print(
-    a + b,   # Addition
-    a - b,   # Subtraction
-    a * b,   # Multiplication
-    a / b,   # Division
-    a // b,  # Floor division
-    a % b,   # Modulus
-    a ** b,  # Exponent
-    sep='\n'
-     )
+my_name = 'sasha'
+name_input = input('Please, enter your name:')
+if name_input.lower() == my_name:
+    print(True)
+else:
+    print(False)
