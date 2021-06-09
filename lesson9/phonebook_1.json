@@ -1,0 +1,28 @@
+{
+    "phonebook_1": [
+        {
+            "first_name": "Sasha",
+            "last_name": "Maksiutinsky",
+            "city": "Rivne",
+            "number": "0633485065"
+        },
+        {
+            "first_name": "Karina",
+            "last_name": "Alimi",
+            "city": "Kyiv",
+            "number": "0932040787"
+        },
+        {
+            "first_name": "Eugene",
+            "last_name": "Mikitiuk",
+            "city": "Kyiv",
+            "number": "0932494428"
+        },
+        {
+            "first_name": "Daria",
+            "last_name": "Alimi",
+            "city": "Rivne",
+            "number": "0932040778"
+        }
+    ]
+}
