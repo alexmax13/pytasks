@@ -38,9 +38,9 @@ def add_new_contact():     # create new contact
 
 def search_by_firstname():
     search_firstname = input("Insert the first name:").capitalize()
-    for object in data_phonebook["phonebook_1"]:
-        if search_firstname == object["first_name"]:
-            print(f"Find: {object}")
+    for object_1 in data_phonebook["phonebook_1"]:
+        if search_firstname == object_1["first_name"]:
+            print(f"Find: {object_1}")
     else:
         print("Cannot find the name!")
 
