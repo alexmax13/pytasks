@@ -52,7 +52,7 @@ class TVController:
 
     def is_exist(self, n):
         if isinstance(n, int):
-            if 0 <= n < len(self.channels):
+            if 0 < n <= len(self.channels):
                 return "YES"
             else:
                 return "NO"
