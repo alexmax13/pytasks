@@ -8,20 +8,17 @@
 
 class Mathematician:
 
-    @staticmethod
-    def square_nums(lst):
+    def square_nums(self, lst):
         squares = []
         for i in lst:
             squares.append(i ** 2)
         return squares
 
-    @staticmethod
-    def remove_positives(lst):
-        pos_num = [num for num in lst if num >= 0]
+    def remove_positives(self, lst):
+        pos_num = [num for num in lst if num < 0]
         return pos_num
 
-    @staticmethod
-    def filter_leaps(lst):
+    def filter_leaps(self, lst):
         import calendar
         leaps = [i for i in lst if calendar.isleap(i)]
         return leaps
@@ -29,6 +26,9 @@ class Mathematician:
 
 m = Mathematician()
 
-print(m.square_nums([7, 11, 5, 4]))
-print(m.remove_positives([26, -11, -8, 13, -90]))
-print(m.filter_leaps([2001, 1884, 1995, 2003, 2020]))
+assert m.square_nums([7, 11, 5, 4]) == [49, 121, 25, 16]
+
+assert m.remove_positives([26, -11, -8, 13, -90]) == [-11, -8, -90]
+
+assert m.filter_leaps([2001, 1884, 1995, 2003, 2020]) == [1884, 2020]
+
