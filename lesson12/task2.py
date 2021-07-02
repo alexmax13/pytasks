@@ -23,20 +23,33 @@ class Library:
 
     def new_book(self, title, year, author):
         self.books.append(Book(title, year, author))
+        Book.amount += 1
 
     def group_by_author(self, author):
-        group = [book for book in self.books if book.author == author]
-        return group
+        buffer = ''
+        for book in self.books:
+            if book.author == author:
+                buffer += str(book)
+                buffer += '\n'
+        return buffer
 
     def group_by_year(self, year):
-        group = [book for book in self.books if book.year == year]
-        return group
+        buffer = ''
+        for book in self.books:
+            if book.year == year:
+                buffer += str(book)
+                buffer += '\n'
+        return buffer
 
     def __repr__(self):
         return self.books
 
     def __str__(self):
-        return self.books
+        buffer = ''
+        for book in self.books:
+            buffer += str(book)
+            buffer += '\n'
+        return buffer
 
 
 class Book:
@@ -46,13 +59,12 @@ class Book:
         self.title = title
         self.year = year
         self.author = author
-        self.amount += 1
 
     def __repr__(self):
-        return self.title
+        return f'{self.title} - {self.year} рік, ({self.author})'
 
     def __str__(self):
-        return self.title
+        return f'{self.title} - {self.year} рік, ({self.author})'
 
 
 class Author:
@@ -62,10 +74,10 @@ class Author:
         self.birthday = birthday
 
     def __repr__(self):
-        return f'Name: {self.name}, country: {self.country}, birthday: {self.birthday}'
+        return self.name
 
     def __str__(self):
-        return f'Name: {self.name}, country: {self.country}, birthday: {self.birthday}'
+        return self.name
 
 
 author_remark = Author('Еріх Марія Ремарк', 'Німеччина', 1898)
@@ -83,17 +95,11 @@ library.new_book('Возвращение', 1931, author_remark)
 library.new_book('Триумфальная арка', 1945, author_remark)
 library.new_book('Искра жизни', 1931, author_remark)
 
-
-book_sartr = Book('Тошнота', 1938, author_sartr)
-book_remark = Book('Триумфальная арка', 1945, author_remark)
-print(book_sartr, book_remark, sep='\n', end='\n' * 2)
-
-
-print(author_remark, author_sartr, sep='\n', end='\n' * 2)
-
-
 print(library.group_by_author(author_sartr), end='\n' * 2)
 print(library.group_by_author(author_remark), end='\n' * 2)
 
+print(library.group_by_year(1931), end='\n' * 2)
 
-print(library.group_by_year(1931))
+print(library)
+
+print(f'{Book.amount} books in library.')
