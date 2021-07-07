@@ -6,7 +6,17 @@
 
 def logger(func):
     def wrap(*args, **kwargs):
-        print(f'The result will be: {func(*args, **kwargs)}')
+        result = func(*args, **kwargs)
+        arguments = [arg for arg in args] + [f'{key}={kwargs[key]}' for key in kwargs]
+        last_element = arguments[len(arguments) - 1]
+
+        print(f'{func.__name__}(', end='')
+        for arg in arguments:
+            print(arg, end='')
+            if arg != last_element:
+                print(', ', end='')
+        print(f') = {result}')
+
     return wrap
 
 
@@ -16,11 +26,10 @@ def add(x, y):
 
 
 @logger
-def square_all(*args):
-    return [arg ** 2 for arg in args]
+def square_all(*args, **kwargs):
+    return [arg ** 2 for arg in args] + [arg ** 2 for arg in kwargs.values()]
 
 
 add(4, 5)
 
-square_all(8, 6, 2, 4, 1)
-
+square_all(8, 6, 2, 4, b=1)
