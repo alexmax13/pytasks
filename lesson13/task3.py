@@ -6,7 +6,7 @@
 
 def choose_func(nums: list, func1, func2):
     check_list = all(number > 0 for number in nums)
-    if check_list is True:
+    if check_list:
         return func1(nums)
     else:
         return func2(nums)
