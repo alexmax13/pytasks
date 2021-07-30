@@ -7,32 +7,28 @@
 # to workers list directly via access to attribute, use getters and setters instead!
 
 class Boss:
-
     def __init__(self, id_: int, name: str, company: str):
         self.id = id_
-
         self.name = name
-
         self.company = company
-
         self.workers = []
 
-    def get_workers(self):
+    @property
+    def list_workers(self):
+        print('Show list of workers')
         return self.workers
 
-    def set_workers(self, worker):
-        self.workers.append(worker)
+    @list_workers.setter
+    def list_workers(self, worker):
+        print(f'add workers: {worker.name}')
+        self.workers.append(worker.name)
 
 
 class Worker:
-
     def __init__(self, id_: int, name: str, company: str, boss: Boss):
         self.id = id_
-
         self.name = name
-
         self.company = company
-
         self.boss = boss
 
 
@@ -45,10 +41,10 @@ Naz = Worker(1, 'Naz', 'BuildFactory', Karina)
 Bob = Worker(1, 'Bob', 'Etsy', Karina)
 
 
-Eugene.set_workers(San.name)
-Eugene.set_workers(Val.name)
-print(Eugene.get_workers())
+Eugene.list_workers = San
+Eugene.list_workers = Val
+Eugene.list_workers = Bob
+print(Eugene.list_workers)
 
-Karina.set_workers(Naz.name)
-Karina.set_workers(Bob.name)
-print(Karina.get_workers())
+Karina.list_workers = Naz
+print(Karina.list_workers)
