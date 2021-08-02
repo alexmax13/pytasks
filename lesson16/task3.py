@@ -5,26 +5,29 @@
 week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
 
-def my_iter(iterable):
-    my_list = iter(iterable)
-    return my_list
+class MyIter:
+    def __init__(self, my_list):
+        self.list = my_list
+        self.index = -1
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        self.index += 1
+
+        if self.index >= len(self.list):
+            raise StopIteration
+
+        return self.list[self.index]
+
+    def __getitem__(self, item):
+        return self.list[item - 1]
 
 
-print('* for loop:'.upper())
+in_iter = MyIter(week)
 
-for item in my_iter(week):
-    print(item)
+print(in_iter[7], end='\n'*2)
 
-
-print('\n', '* next function'.upper())
-
-x = my_iter(week)
-print(next(x))
-print(next(x))
-print(next(x))
-print(next(x))
-print(next(x))
-print(next(x))
-print(next(x))
-
-# print(next(x))      StopIteration
+for i in in_iter:
+    print(i)
