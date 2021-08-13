@@ -22,22 +22,22 @@
 # - get_product_info(product_name) - returns a tuple with product name and amount of items in the store.
 
 class Product:
-    def __init__(self, prod_type, name, price):
-        self.type = prod_type
-        self.name = name
-        self.price = price
+    def __init__(self, prod_type: str, name: str, price: int) -> None:
+        self.type: str = prod_type
+        self.name: str = name
+        self.price: int = price
 
 
 class StoreItem:
-    def __init__(self, product, amount, discount=0):
-        self.product_info = product
-        self.amount = amount
-        self.discount = discount
+    def __init__(self, product: Product, amount: int, discount: int = 0) -> None:
+        self.product_info: Product = product
+        self.amount: int = amount
+        self.discount: int = discount
 
-    def get_price(self):
+    def get_price(self) -> float:
         return self.product_info.price - (self.product_info.price * self.discount / 100)
 
-    def print_product_info(self):
+    def print_product_info(self) -> None:
         if self.discount > 0:
             text = f'(with discount {self.discount}%)'
         else:
@@ -50,12 +50,12 @@ class StoreItem:
 
 class ProductStore:
 
-    def __init__(self, name):
-        self.name = name
-        self.storage = []
-        self.income = 0
+    def __init__(self, name) -> None:
+        self.name: str = name
+        self.storage: list = []
+        self.income: int = 0
 
-    def add(self, product, amount):
+    def add(self, product: Product, amount: int) -> None:
         for item in self.storage:
             if item.product_info.name == product.name and item.product_info.type == product.type:
                 item.amount += amount
@@ -66,7 +66,7 @@ class ProductStore:
         self.storage.append(p)  # self.storage.append(StoreItem(product, amount))
         p.print_product_info()
 
-    def set_discount(self, identifier, percent, identifier_type='name'):
+    def set_discount(self, identifier: str, percent: int, identifier_type: str = 'name') -> None:
         if identifier_type == 'name':
             for item in self.storage:
                 if item.product_info.name == identifier:
@@ -78,7 +78,7 @@ class ProductStore:
                     item.discount = percent
                     item.print_product_info()
 
-    def sell_product(self, product_name, amount):
+    def sell_product(self, product_name: str, amount: int) -> None:
         for item in self.storage:
             if item.product_info.name == product_name:
                 if amount <= item.amount:
@@ -89,15 +89,15 @@ class ProductStore:
                 else:
                     raise ValueError('Unable selling')
 
-    def get_income(self):
+    def get_income(self) -> int:
         return self.income
 
-    def get_all_products(self):
+    def get_all_products(self) -> None:
         print('Available products:')
         for item in self.storage:
             item.print_product_info()
 
-    def get_product_info(self, product):
+    def get_product_info(self, product: str):
         for item in self.storage:
             if product == item.product_info.name:
                 return item.product_info.name, item.amount
