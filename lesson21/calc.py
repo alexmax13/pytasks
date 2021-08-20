@@ -173,8 +173,12 @@ class Ui_MainWindow(object):
         self.btn_sub.clicked.connect(lambda: self.operation("-"))
         self.btn_mul.clicked.connect(lambda: self.operation("*"))
         self.btn_div.clicked.connect(lambda: self.operation("/"))
+        self.btn_proc.clicked.connect(lambda: self.operation("%"))
+
         self.btn_clear.clicked.connect(lambda: self.clear_calc())
         self.btn_equal.clicked.connect(lambda: self.label_result())
+
+        self.btn_dot.clicked.connect(lambda: self.label_result())           #
 
     def number_pressed(self, number):
         self.calc.insert_state(number)
@@ -194,6 +198,7 @@ class Ui_MainWindow(object):
     def clear_calc(self):
         self.calc.clear()
         self.update_label()
+
 
 class Calculator:
     def __init__(self):
@@ -249,8 +254,13 @@ class Calculator:
             self._state -= self._arg
         if self._operation == "*":
             self._state *= self._arg
+        if self._operation == "%":
+            self._state *= self._arg / 100
         if self._operation == "/":
-            self._state /= self._arg
+            if self._arg == 0:
+                self._state = 0
+            else:
+                self._state /= self._arg
         self._operation = ""
         self._arg = .0
 
