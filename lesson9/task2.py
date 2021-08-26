@@ -14,20 +14,20 @@
 # Application should load JSON data, if it is present in the folder with application
 # else raise an error.
 # After the user exits, all data should be saved to loaded JSON.
-
+import typing as ty
 import json
 import os
 import sys
 
 
-def add_new_contact():     # create new contact
+def add_new_contact() -> None:     # create new contact
     print("Insert new contact!")
-    new_firstname = input("First name:")
-    new_lastname = input("Last name:")
-    new_city = input("City:")
-    new_number = input("Phone number:")
+    new_firstname: str = input("First name:")
+    new_lastname: str = input("Last name:")
+    new_city: str = input("City:")
+    new_number: str = input("Phone number:")
 
-    data_phonebook["phonebook_1"].append({
+    data_phonebook["phonebook_1"]: dict.append({
         "first_name": new_firstname,
         "last_name": new_lastname,
         "city": new_city,
@@ -36,58 +36,67 @@ def add_new_contact():     # create new contact
     print("Contact is created!")
 
 
-def search_by_firstname():
-    search_firstname = input("Insert the first name:").capitalize()
+def search_by_firstname() -> None:
+    counter = 0
+    search_firstname: str = input("Insert the first name:").capitalize()
     for object_1 in data_phonebook["phonebook_1"]:
         if search_firstname == object_1["first_name"]:
             print(f"Find: {object_1}")
-    else:
+            counter += 1
+    if counter < 1:
         print("Cannot find the name!")
 
 
-def search_by_lastname():
-    search_lastname = input("Insert the last name:").capitalize()
-    for name in data_phonebook["phonebook_1"]:
-        if search_lastname == name["last_name"]:
-            print(f"Find: {name}")
-    else:
+def search_by_lastname() -> None:
+    counter = 0
+    search_lastname: str = input("Insert the last name:").capitalize()
+    for contact in data_phonebook["phonebook_1"]:
+        if search_lastname == contact["last_name"]:
+            print(f"Found: {contact}")
+            counter += 1
+    if counter < 1:
         print("Cannot find the name!")
 
 
-def search_by_fullname():
-    search_fullname = input("Insert full name:").capitalize()
+def search_by_fullname() -> None:
+    counter = 0
+    search_fullname: str = input("Insert full name:").capitalize()
     for name in data_phonebook["phonebook_1"]:
         if search_fullname == name["first_name"] + ' ' + name["last_name"]:
             print(f"Find: {name}")
-    else:
+            counter += 1
+    if counter < 1:
         print("Cannot find the name!")
 
 
-def search_by_number():
-    search_number = input("Insert the phone number:")
+def search_by_number() -> None:
+    counter = 0
+    search_number: str = input("Insert the phone number:")
     if search_number.isdigit() is False:
         print("The phone number must contain 10 numbers")
     else:
         for object_1 in data_phonebook["phonebook_1"]:
             if search_number == object_1["number"]:
                 print(f"Find: {object_1}")
+                counter += 1
                 break
-        else:
+        if counter < 1:
             print("Cannot find the phone number")
 
 
-def search_by_city():
-    search_city = input("Insert the city:").capitalize()
+def search_by_city() -> None:
+    counter = 0
+    search_city: str = input("Insert the city:").capitalize()
     for name in data_phonebook["phonebook_1"]:
         if search_city == name["city"]:
             print(f"Find: {name}")
-    else:
-
+            counter += 1
+    if counter < 1:
         print("Cannot find the city!")
 
 
-def delete_a_record():
-    delete_record = input("Insert the contact you want to delete:")
+def delete_a_record() -> None:
+    delete_record: str = input("Insert the contact you want to delete:")
     for name in data_phonebook["phonebook_1"]:
         if delete_record == name["number"]:
             data_phonebook['phonebook_1'].remove(name)
@@ -95,12 +104,12 @@ def delete_a_record():
     print_phonebook()
 
 
-def update_a_record():
-    update_record = input("Insert the number of contact you want to update:")
-    change_firstname = input('New first name:')
-    change_lastname = input('New last name:')
-    change_city = input('New city:')
-    change_number = input('New number:')
+def update_a_record() -> None:
+    update_record: str = input("Insert the number of contact you want to update:")
+    change_firstname: str = input('New first name:')
+    change_lastname: str = input('New last name:')
+    change_city: str = input('New city:')
+    change_number: str = input('New number:')
 
     for name in data_phonebook["phonebook_1"]:
         if update_record == name["number"]:
@@ -111,19 +120,19 @@ def update_a_record():
     print("Contact is update!")
 
 
-def exit_func():
+def exit_func() -> None:
     with open(phone_book_filename, 'w') as file_1:
         json.dump(data_phonebook, file_1, ensure_ascii=False, indent=4)
 
 
-def print_phonebook():
+def print_phonebook() -> None:
     print(data_phonebook)
 
 
-def phonebook():
-    select_option = 0
+def phonebook() -> None:
+    select_option: int = 0
     while select_option != '9':
-        select_option = input("""
+        select_option: str = input("""
         Select option:
         1 - create new contact
         2 - search by first name
