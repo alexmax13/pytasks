@@ -178,10 +178,14 @@ class Ui_MainWindow(object):
         self.btn_clear.clicked.connect(lambda: self.clear_calc())
         self.btn_equal.clicked.connect(lambda: self.label_result())
 
-        self.btn_dot.clicked.connect(lambda: self.label_result())           #
+        self.btn_dot.clicked.connect(lambda: self.dot_pressed())
 
     def number_pressed(self, number):
         self.calc.insert_state(number)
+        self.update_label()
+
+    def dot_pressed(self):
+        self.calc.insert_dot()
         self.update_label()
 
     def update_label(self):
@@ -196,7 +200,7 @@ class Ui_MainWindow(object):
         self.update_label()
 
     def clear_calc(self):
-        self.calc.clear()
+        self.calc.clear(True)
         self.update_label()
 
 
@@ -205,9 +209,13 @@ class Calculator:
         self._state = .0
         self._operation = ""
         self._arg = .0
+        self._is_decimal = False
+
+    def is_arg_active(self):
+        return len(self._operation) > 0
 
     def insert_state(self, number):
-        if len(self._operation) > 0:
+        if self.is_arg_active():
             if self._arg == 0:
                 self._arg = number
             else:
@@ -219,19 +227,34 @@ class Calculator:
             if self._state == 0:
                 self._state = number
             else:
+                should_add_dot = False
                 if self._state % 1 == 0:
                     self._state = int(self._state)
-                result = str(self._state) + str(number)
+                    should_add_dot = True
+                result = str(self._state)
+                if self._is_decimal and should_add_dot:
+                    result += "."
+                result += str(number)
                 self._state = float(result)
 
+    def insert_dot(self):
+        self._is_decimal = not self._is_decimal
+
     def get_label_str(self):
-        if len(self._operation) > 0:
+        if self.is_arg_active():
             value = self._arg
         else:
             value = self._state
+
+        should_add_dot = False
         if value % 1 == 0:
             value = int(value)
-        return str(value)
+            should_add_dot = True
+
+        result = str(value)
+        if self._is_decimal and should_add_dot:
+            result += "."
+        return result
 
     def set_operation(self, operation):
         self._operation = operation
@@ -242,10 +265,12 @@ class Calculator:
     def set_arg(self, arg):
         self._arg = arg
 
-    def clear(self):
-        self._state = .0
+    def clear(self, clear_state=False):
+        if clear_state:
+            self._state = .0
         self._operation: str = ""
         self._arg = .0
+        self._is_decimal = False
 
     def result(self):
         if self._operation == "+":
@@ -261,8 +286,8 @@ class Calculator:
                 self._state = 0
             else:
                 self._state /= self._arg
-        self._operation = ""
-        self._arg = .0
+
+        self.clear(False)
 
     def negate(self):
         self._state *= -1                    # multiply by -1
