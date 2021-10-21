@@ -19,6 +19,6 @@ for i in parentheses_list:
         is_balanced = False
         break
 if is_balanced and len(stack) == 0:
-    print("Balanced")
+    print("balanced")
 else:
-    print("Not balanced")
+    print("not balanced")
