@@ -1,5 +1,4 @@
 import requests
-import json
 import datetime
 
 
@@ -18,7 +17,7 @@ data = get_data(base_url, params)
 
 with open("comments.txt", "w") as file:
     for i in data['data']:
-        comments = 'Author: ' + i['author'],\
-                    'Comment: ' + i['body'],\
-                    'Date: ' + datetime.datetime.fromtimestamp(i['created_utc']).strftime('%Y-%m-%d %H:%M:%S')
-        json.dump(comments, file, indent=4)
+        comment = 'Author: ' + i['author'] + '\n'\
+                    + 'Comment: ' + i['body'] + '\n'\
+                    + 'Date: ' + datetime.datetime.fromtimestamp(i['created_utc']).strftime('%Y-%m-%d %H:%M:%S') + '\n'
+        file.write(comment + '\n')
