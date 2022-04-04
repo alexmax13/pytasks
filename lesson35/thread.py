@@ -1,5 +1,6 @@
+import threading
+
 import requests
-import datetime
 import concurrent.futures
 import os
 import datetime
@@ -16,15 +17,10 @@ def set_session():
         session = requests.Session()
 
 
-with open('/Users/San/Desktop/subreddits.txt', 'r') as f:
+with open(f'{cwd}/subreddits.txt', 'r') as f:
     subreddits_list = f.read().splitlines()
 
 timeout = len(subreddits_list) * 3
-
-date = datetime.datetime.now().strftime('%d-%m-%y %H-%M-%S')
-folder_ = os.path.join("/Users/San/Desktop/", f'{date}')
-if not os.path.exists(folder_):
-    os.mkdir(folder_)
 
 
 def get_data(url_, params):
@@ -34,7 +30,7 @@ def get_data(url_, params):
         if (datetime.datetime.now() - start_loop).total_seconds() > timeout:
             print(f"Timeout connection: {params['subreddit']}")
             return {}
-        print(f"{multiprocessing.current_process().name}: {params['subreddit']}-{response.status_code}")
+        print(f"{threading.current_thread().name}: {params['subreddit']}-{response.status_code}")
         if response.status_code == 200:
             return response.json()
         time.sleep(2)
@@ -57,6 +53,11 @@ def worker(subreddit):
 if __name__ == '__main__':
 
     start = datetime.datetime.now()
+
+    date = datetime.datetime.now().strftime('%d-%m-%y %H-%M-%S')
+    folder_ = os.path.join(cwd, f'{date}')
+    if not os.path.exists(folder_):
+        os.mkdir(folder_)
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
         executor.map(worker, subreddits_list)
