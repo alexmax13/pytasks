@@ -72,7 +72,7 @@ class MultiprocDownloader:
 
 if __name__ == '__main__':
 
-    l = MultiprocDownloader()
-    l.launch()
+    downloader = MultiprocDownloader()
+    downloader.launch()
 
 
