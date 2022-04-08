@@ -4,13 +4,14 @@ import datetime
 from multiprocessing import Pool
 import os
 import time
+from interface import DownloadCommentsInterFace
 
 mp_session: requests.Session = None
-mp_folder = None
+mp_folder = ''
 mp_timeout = .0
 
 
-class MultiprocDownloader:
+class MultiprocDownloader(DownloadCommentsInterFace):
 
     @staticmethod
     def init_process(folder, timeout_):
@@ -51,28 +52,30 @@ class MultiprocDownloader:
                     '%Y-%m-%d %H:%M:%S') + '\n'
                 file.write(comment + '\n')
 
-    def launch(self):
-        start = datetime.datetime.now()
-        cwd = os.getcwd()
-        with open(f'{cwd}/subreddits.txt', 'r') as f:
-            subreddits_list = f.read().splitlines()
+    def launch(self, subreddits, folder):
 
-        timeout = len(subreddits_list) * 3
+        timeout = len(subreddits) * 3
 
-        date = datetime.datetime.now().strftime('%d-%m-%y %H-%M-%S')
-        folder_ = os.path.join(cwd, f'{date}')
-        if not os.path.exists(folder_):
-            os.mkdir(folder_)
-
-        with Pool(initializer=MultiprocDownloader.init_process, initargs=(folder_, timeout)) as pool:
-            pool.map(MultiprocDownloader.worker, subreddits_list)
-
-        print(datetime.datetime.now() - start)
+        with Pool(initializer=MultiprocDownloader.init_process, initargs=(folder, timeout)) as pool:
+            pool.map(MultiprocDownloader.worker, subreddits)
 
 
 if __name__ == '__main__':
+    cwd = os.getcwd()
+
+    with open(f'{cwd}/subreddits.txt', 'r') as f:
+        subreddits_list = f.read().splitlines()
+
+    date = datetime.datetime.now().strftime('%d-%m-%y (%H-%M-%S)')
+    folder_ = os.path.join(cwd, f'{date}')
+    if not os.path.exists(folder_):
+        os.mkdir(folder_)
+    start = datetime.datetime.now()
 
     downloader = MultiprocDownloader()
-    downloader.launch()
+    downloader.launch(subreddits_list, folder_)
+
+    print(datetime.datetime.now() - start)
+
 
 
