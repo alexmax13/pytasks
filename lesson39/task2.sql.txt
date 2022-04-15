@@ -1,0 +1,37 @@
+admin@MacBook-Pro-Admin desktop % sqlite3 hr.db
+SQLite version 3.28.0 2019-04-15 14:49:49
+Enter ".help" for usage hints.
+sqlite> .headers on
+sqlite> .mode column
+sqlite> select * from employees
+sqlite> select first_name as 'First Name', last_name as 'Last Name' from employees;
+
+
+
+sqlite> select distinct department_id from employees;
+
+
+
+sqlite> select * from employees order by first_name desc;
+
+
+
+sqlite> select max(salary) as "Largest salary" from employees;
+Largest salary
+--------------
+24000  
+
+
+sqlite> select min(salary) as "Lowest salary" from employees;
+Lowest salary
+-------------
+2100         
+sqlite> 
+
+
+SELECT first_name, last_name, salary, salary*.12 PF 
+FROM employees; 
+
+
+SELECT first_name, last_name, round(salary/12) as 'Monthly Salary' 
+FROM employees;
