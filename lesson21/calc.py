@@ -219,21 +219,33 @@ class Calculator:
             if self._arg == 0:
                 self._arg = number
             else:
+                should_add_dot = False
+
                 if self._arg % 1 == 0:
                     self._arg = int(self._arg)
+                    should_add_dot = True
+
+                result = str(self._state)
+                if self._is_decimal and should_add_dot:
+                    result += "."
+
                 result = str(self._arg) + str(number)
                 self._arg = float(result)
+
         else:
             if self._state == 0:
                 self._state = number
             else:
                 should_add_dot = False
+
                 if self._state % 1 == 0:
                     self._state = int(self._state)
                     should_add_dot = True
+
                 result = str(self._state)
                 if self._is_decimal and should_add_dot:
                     result += "."
+
                 result += str(number)
                 self._state = float(result)
 

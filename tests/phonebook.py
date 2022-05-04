@@ -91,9 +91,10 @@ class PhoneBook:
         print("Contact is update!")
         self.print_phonebook()
 
-    def exit_func(self) -> None:
+    def exit_func(self):
         with open(self.phone_book_filename, 'w') as file_1:
             json.dump(self.phonebook, file_1, ensure_ascii=False, indent=4)
+        return self.phonebook
 
     def print_phonebook(self):
         print(self.phonebook)
@@ -167,7 +168,7 @@ class PhoneBook:
                 data = file.read()
                 self.phonebook: dict = json.loads(data)
 
-            print(self.phonebook)
+            return self.phonebook
 
         except OSError as error:
             print(error)
