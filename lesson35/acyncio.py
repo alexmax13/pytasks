@@ -9,6 +9,7 @@ from interface import DownloadCommentsInterFace
 class AsyncDownloader(DownloadCommentsInterFace):
 
     def __init__(self):
+        super().__init__()
         self.timeout = .0
         self.folder = ''
 

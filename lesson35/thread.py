@@ -10,6 +10,7 @@ from interface import DownloadCommentsInterFace
 class ThreadDownloader(DownloadCommentsInterFace):
 
     def __init__(self, session: requests.Session = None, timeout=.0):
+        super().__init__()
         if not session:
             self.session = requests.Session()
             self.timeout = timeout

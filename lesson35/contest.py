@@ -13,11 +13,13 @@ class ConcurrencyContest:
 
     def add_downloader(self, downloader: DownloadCommentsInterFace) -> None:
         if issubclass(type(downloader), DownloadCommentsInterFace):
+            downloader.set_number(len(self.downloaders))
             self.downloaders.append(downloader)
+
         else:
             print("Wrong type instance")
 
-    def run(self) -> None:
+    def run(self):
 
         cwd = os.getcwd()
 
@@ -32,7 +34,7 @@ class ConcurrencyContest:
         print("\u001b[31m[ 🏁 READY! STEADY! GO! 🏆 ]\u001b[0m")
         participant_list = {}
         for downloader in self.downloaders:
-            participant_name = type(downloader).__name__
+            participant_name = downloader.get_name()
             downloader_folder = os.path.join(folder, f'{participant_name}')
 
             if not os.path.exists(downloader_folder):
@@ -43,12 +45,13 @@ class ConcurrencyContest:
             downloader.launch(subreddits_list, downloader_folder)
 
             total_time = (datetime.datetime.now() - start).total_seconds()
-            participant_list[participant_name] = total_time
+            participant_list[downloader] = total_time
 
         for name, duration in participant_list.items():
-            print(f"{name} finished for {duration}s")
+            print(f"{name.get_name()} finished for {duration}s")
         winner = min(participant_list, key=participant_list.get)
-        print(f'{winner} is winner')
+        print(f'{winner.get_name()} is winner')
+        return winner
 
 
 if __name__ == "__main__":
